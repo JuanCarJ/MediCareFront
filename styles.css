@@ -1,0 +1,20 @@
+
+body {
+  background-color: #e6f0fa;
+}
+
+.modal.show {
+  display: block;
+  background: rgba(0, 0, 0, 0.5);
+}
+.message-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  z-index: 1050;
+}
+header, footer {
+  background-color: #000000;
+  color: white;
+}
