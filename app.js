@@ -10,7 +10,8 @@ createApp({
       selectedCita: null,
       nuevoEstado: null,
       mensaje: "",
-      mostrarMensaje: false
+      mostrarMensaje: false,
+      verificarEstadoActivo: true // Controla si `verificarMismoEstado` está activo o no
     };
   },
   methods: {
@@ -58,11 +59,29 @@ createApp({
     closeModal() {
       this.selectedCita = null;
     },
+    verificarMismoEstado(activo) {
+      this.verificarEstadoActivo = activo;
+      if (this.verificarEstadoActivo && this.selectedCita && this.nuevoEstado) {
+        const estadoActualId = this.estados.find(e => e.descripcion === this.selectedCita.estadoActual)?.id;
+        if (estadoActualId === this.nuevoEstado) {
+          swal.fire({
+            icon: 'warning',
+            title: 'Advertencia',
+            text: 'No se puede actualizar al mismo estado'
+          });
+          return false;
+        }
+      }
+      return true;
+    },
     async updateEstado() {
       if (!this.nuevoEstado) return;
+      if (!this.verificarMismoEstado(this.verificarEstadoActivo)) {
+        return; 
+      }
 
       try {
-        const response = await fetch("https://bcc06ae3-d562-4911-add3-b7fa9c2b92df.mock.pstmn.io/api/v2/citas/actualizarRegistroEstadoCita", {
+        const response = await fetch("https://bcc06ae3-d562-4911-add3-b7fa9c2b92df.mock.pstmn.io/api/v2/citas/actualizarRegistroEstadoCitaF", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
