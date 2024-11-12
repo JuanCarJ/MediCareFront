@@ -11,13 +11,13 @@ createApp({
       nuevoEstado: null,
       mensaje: "",
       mostrarMensaje: false,
-      verificarEstadoActivo: true // Controla si `verificarMismoEstado` está activo o no
+      verificarEstadoActivo: true // Controla si verificarMismoEstado está activo o no
     };
   },
   methods: {
     async fetchCitas() {
       try {
-        const response = await fetch("https://mocki.io/v1/27b55c6e-9eea-4491-a1d9-eae0b91076f7");
+        const response = await fetch("http://localhost:8080/cita/obtener-citas");
         if (!response.ok) throw new Error("Error al cargar las citas");
         this.citas = await response.json();
         this.filteredCitas = this.citas;
@@ -32,7 +32,7 @@ createApp({
     },
     async fetchEstados() {
       try {
-        const response = await fetch("https://mocki.io/v1/e4e717ca-1aae-455a-8570-98b4fd077276");
+        const response = await fetch("http://localhost:8080/tipo-estado-cita/obtener-tipos-estado-cita");
         if (!response.ok) throw new Error("Error al cargar los estados");
         this.estados = await response.json();
       } catch (error) {
@@ -81,7 +81,7 @@ createApp({
       }
 
       try {
-        const response = await fetch("https://bcc06ae3-d562-4911-add3-b7fa9c2b92df.mock.pstmn.io/api/v2/citas/actualizarRegistroEstadoCitaF", {
+        const response = await fetch("http://localhost:8080/registro-estado-cita/asignar-estado-cita", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
